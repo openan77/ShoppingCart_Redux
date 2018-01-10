@@ -3,7 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Con
 import AlbumJSON from './Album.json';
 import {createStore} from 'redux';
 
-
+Console.log("Start Redux");
 
 // Reducer
 
