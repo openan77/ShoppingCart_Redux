@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "img": "https://images.unsplash.com/photo-1471086569966-db3eebc25a59?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=903a57d1b102f293a34d1ff4d07e77ff",
+      "title": "電信蘭",
+      "desc": "天南星科龜背芋屬多年生蔓性草本植物，又稱電信蘭、電線蘭、羽芋、春芋、龜背竹、孔葉龜背竹、龜背蕉、蓬萊蕉，原產於熱帶美洲、所羅門群島，有肉質地下莖，植株具攀緣根，可附著他物，褐色，莖伸長後呈蔓性，有明顯葉痕，下垂性。",
+      "price": 200,
+      "discount": true
+    },
+    {
+      "id": 2,
+      "img": "https://images.unsplash.com/photo-1488645411773-a3b09ea07e29?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=5119fde679a3f05a3c2c7f824363f6b0",
+      "title": "多肉植物",
+      "desc": "多肉植物又被稱作肉質植物，是指植物能在氣候或土壤乾旱的條件下擁有肥大的葉或莖甚至是貯藏器官（例如是根莖），多肉植物主要生長於沙漠及海岸乾旱地區。它們的根、莖特別肥大，葉片退化，以利於儲存大量的水分。",
+      "price": 50
+    },
+    {
+      "id": 3,
+      "img": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&s=5ae88b9edc43413e06fe00061bfca6b1",
+      "title": "帝王錦",
+      "desc": "屬於蘆薈的一種，葉緣與葉背都長有軟刺。秋冬為其生長季，懊熱的夏天則進入休眠期，要特別注意通風，也不要澆太多水。",
+      "price": 100
+    }
+  ]
