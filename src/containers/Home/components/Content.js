@@ -3,30 +3,34 @@ import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Con
 import AlbumJSON from './Album.json';
 import {createStore} from 'redux';
 
-Console.log("Start Redux");
+console.log("Start Redux");
 
 // Reducer
 
 const reducer = (state = [], action) => {
   switch (action.type) {
     case "PUSH":
-      return [...state,
-        action.product
-      ]
+    if (state.indexOf(action.product) > -1){
+      return state;
+    }
+    return [...state,
+      action.product
+    ];
+
     default:
       return state;
   }
 };
 
 // Store
-const store = createStore(reducer, {});
+const store = createStore(reducer, []);
 
 // UI
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch({type: "PUSH", product:{id:2,name:"banaba",price:"20"} });
+// store.dispatch({type: "PUSH", product:{id:2,name:"banaba",price:"20"} });
 
 //----------------------------------------------------------------------------
 
@@ -81,7 +85,7 @@ export default class Content extends Component {
                     <CardTitle>{product.title}</CardTitle>
                     <CardSubtitle>價格:{product.price}</CardSubtitle>
                     <CardText>{product.desc}</CardText>
-                    <Button disabled={this.state.cart.find(item => item.id === product.id)} onClick={() => this.addToCart(product)}>購買</Button>
+                    <Button  onClick={() => store.dispatch({type: "PUSH", product })}>購買</Button>
                   </CardBody>
                 </Card>
               </Col>
