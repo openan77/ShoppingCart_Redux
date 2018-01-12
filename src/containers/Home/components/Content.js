@@ -2,10 +2,45 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import AlbumJSON from './Album.json';
 import {createStore} from 'redux';
+import { Provider } from 'react-redux'
 
 console.log("Start Redux");
 
 // Reducer
+const initialState = {
+  addedIds: [],
+  quantityById: {}
+}
+
+const addProduct = (state = initialState.addedIds, product) => {
+  if(state.indexOf(product) === -1){
+    return [...state, product]
+  }
+  return state;
+}
+
+const addQuantity = (state = initialState.quantityById, product) => {
+  return {
+    ...state,
+    [product]: (state[product] || 0) + 1
+  }
+}
+
+const cartReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "PUSH":
+      return Object.assign({}, state, {
+        addedIds: addProduct(state.addedIds, action.product.id),
+        quantityById: addQuantity(state.quantityById, action.product.id)
+      })
+    case "COUNT":
+      console.log("Counting.....");
+      return state.addedIds.length;
+    default:
+      return state;
+  }
+}
+
 
 const reducer = (state = [], action) => {
   switch (action.type) {
@@ -16,14 +51,14 @@ const reducer = (state = [], action) => {
     return [...state,
       action.product
     ];
-
+    case "CHECKOUT":
     default:
       return state;
   }
 };
 
 // Store
-const store = createStore(reducer, []);
+const store = createStore(cartReducer, initialState);
 
 // UI
 store.subscribe(() => {
@@ -62,6 +97,7 @@ export default class Content extends Component {
   render() {
     const TotalPrice = this.state.cart.reduce((acc, item) => acc + item.price, 0);
     return (
+      <Provider store={store}>
       <Container>
         <Row>
           <Col md="12">
@@ -70,7 +106,7 @@ export default class Content extends Component {
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
               <p className="lead">
-                <Button onClick={this.toggle} color="primary">購物車({this.state.cart.length})</Button>
+                <Button onClick={this.toggle} color="primary">購物車({() => store.dispatch({type: "COUNT",action})})</Button>
               </p>
             </Jumbotron>
           </Col>
@@ -122,11 +158,12 @@ export default class Content extends Component {
             <p>總價:{TotalPrice}</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" disabled={this.state.cart.length === 0} onClick={() => this.checkout(TotalPrice)}>結帳</Button>{' '}
+            <Button color="primary" disabled={this.state.cart.length === 0} onClick={() => this.checkout()}>結帳</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>取消</Button>
           </ModalFooter>
         </Modal>
       </Container>
+      </Provider>
     );
   }
 }
