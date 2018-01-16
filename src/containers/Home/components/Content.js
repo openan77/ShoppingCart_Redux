@@ -1,71 +1,44 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import AlbumJSON from './Album.json';
-import {createStore} from 'redux';
-import { Provider } from 'react-redux'
+import {createStore, bindActionCreators} from 'redux';
+import { Provider, connect } from 'react-redux';
+import * as cartAction from '../../../actions/index';
+import cartReducer  from '../../../reducers/index';
 
 console.log("Start Redux");
 
-// Reducer
 const initialState = {
   addedIds: [],
-  quantityById: {}
-}
-
-const addProduct = (state = initialState.addedIds, product) => {
-  if(state.indexOf(product) === -1){
-    return [...state, product]
-  }
-  return state;
-}
-
-const addQuantity = (state = initialState.quantityById, product) => {
-  return {
-    ...state,
-    [product]: (state[product] || 0) + 1
-  }
-}
-
-const cartReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "PUSH":
-      return Object.assign({}, state, {
-        addedIds: addProduct(state.addedIds, action.product.id),
-        quantityById: addQuantity(state.quantityById, action.product.id)
-      })
-    case "COUNT":
-      console.log("Counting.....");
-      return state.addedIds.length;
-    default:
-      return state;
-  }
+  quantityById: {},
+  priceDic: {}
 }
 
 
-const reducer = (state = [], action) => {
-  switch (action.type) {
-    case "PUSH":
-    if (state.indexOf(action.product) > -1){
-      return state;
-    }
-    return [...state,
-      action.product
-    ];
-    case "CHECKOUT":
-    default:
-      return state;
-  }
-};
 
 // Store
 const store = createStore(cartReducer, initialState);
+
+function mapStateToProps(state) {
+  return {
+    quantityById: state.quantityById,
+    priceDic: state.priceDic,
+    count: state.addedIds.length
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    push: bindActionCreators(cartAction, dispatch)
+  };
+}
 
 // UI
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-// store.dispatch({type: "PUSH", product:{id:2,name:"banaba",price:"20"} });
+
 
 //----------------------------------------------------------------------------
 
@@ -82,20 +55,15 @@ export default class Content extends Component {
     });
   }
 
-  addToCart = (product) => {
-    const newCart = this.state.cart;
-    newCart.push(product);
-    this.setState(
-      {cart: newCart}
-    );
-  }
 
   checkout = (totalPrice) => {
     alert(`已扣除${totalPrice}元`);
   }
 
   render() {
-    const TotalPrice = this.state.cart.reduce((acc, item) => acc + item.price, 0);
+    const TotalPrice = 100;
+    
+
     return (
       <Provider store={store}>
       <Container>
@@ -106,7 +74,7 @@ export default class Content extends Component {
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
               <p className="lead">
-                <Button onClick={this.toggle} color="primary">購物車({() => store.dispatch({type: "COUNT",action})})</Button>
+                <Button onClick={this.toggle} color="primary">購物車({store.getState().addedIds.length})</Button>
               </p>
             </Jumbotron>
           </Col>
@@ -121,7 +89,11 @@ export default class Content extends Component {
                     <CardTitle>{product.title}</CardTitle>
                     <CardSubtitle>價格:{product.price}</CardSubtitle>
                     <CardText>{product.desc}</CardText>
-                    <Button  onClick={() => store.dispatch({type: "PUSH", product })}>購買</Button>
+                    <Button  onClick={() => {
+                        store.dispatch({type: "PUSH", product});
+                        console.log(this.props);
+                      }
+                      }>購買</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -167,3 +139,6 @@ export default class Content extends Component {
     );
   }
 }
+
+connect(mapStateToProps)(Content);
+console.log('happy');
