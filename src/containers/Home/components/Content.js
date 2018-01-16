@@ -1,50 +1,42 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import AlbumJSON from './Album.json';
-import {createStore, bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
-import cartReducer  from '../../../reducers/index';
 
 
 console.log("Start Redux");
 
-// Store
-const store = createStore(cartReducer);
-
 function mapStateToProps(state) {
   return {
     quantityById: state.quantityById,
-    priceDic: state.priceDic,
-    count: state.addedIds.length
+    priceDic: state.priceDic
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    push: bindActionCreators(cartAction, dispatch)
+    actions: bindActionCreators(cartAction, dispatch)
   };
 }
 
 // UI
-store.subscribe(() => {
-  console.log(store.getState());
-});
-
-
-
+//store.subscribe(() => {
+//  console.log(store.getState());
+//});
 //----------------------------------------------------------------------------
 
 class Content extends Component {
 
-  state = {
+  initstate = {
    modal: false,
    cart: [],
   }
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.initstate.modal
     });
   }
 
@@ -55,7 +47,6 @@ class Content extends Component {
 
   render() {
     const TotalPrice = 100;
-    
 
     return (
       <Container>
@@ -66,7 +57,7 @@ class Content extends Component {
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
               <p className="lead">
-                <Button onClick={this.toggle} color="primary">購物車({store.getState().addedIds.length})</Button>
+                <Button onClick={this.toggle} color="primary">購物車()</Button>
               </p>
             </Jumbotron>
           </Col>
@@ -82,7 +73,7 @@ class Content extends Component {
                     <CardSubtitle>價格:{product.price}</CardSubtitle>
                     <CardText>{product.desc}</CardText>
                     <Button  onClick={() => {
-                        store.dispatch({type: "PUSH", product});
+                        this.props.actions.addProduct(product);
                         console.log(this.props);
                       }
                       }>購買</Button>
@@ -94,7 +85,7 @@ class Content extends Component {
           }
 
         </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.initstate.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>購物車</ModalHeader>
           <ModalBody>
             <Table>
@@ -107,7 +98,7 @@ class Content extends Component {
               </thead>
               <tbody>
                 {
-                  this.state.cart.map(item => (
+                  this.initstate.cart.map(item => (
                     <tr>
                       <th scope="row">{item.id}</th>
                       <td>{item.title}</td>
@@ -122,7 +113,7 @@ class Content extends Component {
             <p>總價:{TotalPrice}</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" disabled={this.state.cart.length === 0} onClick={() => this.checkout()}>結帳</Button>{' '}
+            <Button color="primary" disabled={this.initstate.cart.length === 0} onClick={() => this.checkout()}>結帳</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>取消</Button>
           </ModalFooter>
         </Modal>
@@ -130,6 +121,6 @@ class Content extends Component {
     );
   }
 }
-export default Content;
-//connect(mapStateToProps)(Content);
-console.log('happy');
+
+export default connect(mapStateToProps,mapDispatchToProps)(Content);
+console.log('Finish Connect!');

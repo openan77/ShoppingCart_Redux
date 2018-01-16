@@ -1,6 +1,7 @@
 //Action
-export function addProduct() {
+export function addProduct(product) {
     return { 
-        type: "PUSH"
+        type: 'PUSH',
+        product
     };
   }
