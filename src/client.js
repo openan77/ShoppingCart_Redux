@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Main from 'containers/';
+import {Provider} from 'react-redux';
+import configureStore from './store/configureStore';
 
 ReactDOM.render(
+  <Provider store={configureStore}>
   <AppContainer>
     <Main />
-  </AppContainer>,
+  </AppContainer>
+  </Provider>,
   document.getElementById('app')
 );
 

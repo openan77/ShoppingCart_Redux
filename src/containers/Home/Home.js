@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Button, Container, Row, Col } from 'reactstrap';
+import ReactDOM from 'react-dom'
 
 import Header from './components/Header.js';
 import Content from './components/Content.js';

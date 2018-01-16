@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import AlbumJSON from './Album.json';
 import {createStore, bindActionCreators} from 'redux';
-import { Provider, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
 import cartReducer  from '../../../reducers/index';
 
+
 console.log("Start Redux");
 
-const initialState = {
-  addedIds: [],
-  quantityById: {},
-  priceDic: {}
-}
-
-
-
 // Store
-const store = createStore(cartReducer, initialState);
+const store = createStore(cartReducer);
 
 function mapStateToProps(state) {
   return {
@@ -42,7 +35,7 @@ store.subscribe(() => {
 
 //----------------------------------------------------------------------------
 
-export default class Content extends Component {
+class Content extends Component {
 
   state = {
    modal: false,
@@ -65,7 +58,6 @@ export default class Content extends Component {
     
 
     return (
-      <Provider store={store}>
       <Container>
         <Row>
           <Col md="12">
@@ -135,10 +127,9 @@ export default class Content extends Component {
           </ModalFooter>
         </Modal>
       </Container>
-      </Provider>
     );
   }
 }
-
-connect(mapStateToProps)(Content);
+export default Content;
+//connect(mapStateToProps)(Content);
 console.log('happy');
