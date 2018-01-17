@@ -28,11 +28,12 @@ const addPrice = (state = initialState.priceDic, product) => {
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'PUSH':
-        return Object.assign({}, state, {
+        return {
+          ...state,
           addedIds: addProduct(state.addedIds, action.product.id),
           quantityById: addQuantity(state.quantityById, action.product.id),
           priceDic: addPrice(state.priceDic, action.product)
-        })
+        }
       default:
         return state;
     }

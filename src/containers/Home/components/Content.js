@@ -12,22 +12,22 @@ const mapStateToProps = (state) => {
     addedIds: state.addedIds,
     quantityById: state.quantityById,
     priceDic: state.priceDic
-  };
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(cartAction, dispatch)
-  };
+  }
 }
 
 
 //----------------------------------------------------------------------------
 
 class Content extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-  }
+}
 
   initstate = {
    modal: false,
@@ -47,7 +47,6 @@ class Content extends Component {
 
   render() {
     const TotalPrice = 100;
-    console.log('Class.Prop:',this.props);
     return (
       <Container>
         <Row>
@@ -74,7 +73,7 @@ class Content extends Component {
                     <CardText>{product.desc}</CardText>
                     <Button onClick={() => {
                         this.props.actions.addProduct(product);
-                        console.log(this.props);
+                        console.log('PROPS:',this.props);
                       }
                       }>購買</Button>
                   </CardBody>
