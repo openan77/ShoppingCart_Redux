@@ -6,28 +6,28 @@ import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
 
 
-console.log("Start Redux");
-
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
+  console.log('STATE:',state);
   return {
+    addedIds: state.addedIds,
     quantityById: state.quantityById,
     priceDic: state.priceDic
   };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(cartAction, dispatch)
   };
 }
 
-// UI
-//store.subscribe(() => {
-//  console.log(store.getState());
-//});
+
 //----------------------------------------------------------------------------
 
 class Content extends Component {
+  constructor(props){
+    super(props);
+  }
 
   initstate = {
    modal: false,
@@ -47,7 +47,7 @@ class Content extends Component {
 
   render() {
     const TotalPrice = 100;
-
+    console.log('Class.Prop:',this.props);
     return (
       <Container>
         <Row>
@@ -72,7 +72,7 @@ class Content extends Component {
                     <CardTitle>{product.title}</CardTitle>
                     <CardSubtitle>價格:{product.price}</CardSubtitle>
                     <CardText>{product.desc}</CardText>
-                    <Button  onClick={() => {
+                    <Button onClick={() => {
                         this.props.actions.addProduct(product);
                         console.log(this.props);
                       }
@@ -122,5 +122,5 @@ class Content extends Component {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Content);
+export default connect(mapStateToProps, mapDispatchToProps)(Content);
 console.log('Finish Connect!');
