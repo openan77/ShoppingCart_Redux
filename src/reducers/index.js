@@ -1,3 +1,5 @@
+import {combineReducers} from 'redux';
+
 const initialState = {
     addedIds: [],
     quantityById: {},
@@ -39,4 +41,8 @@ const cartReducer = (state = initialState, action) => {
     }
 }
 
-export default cartReducer ;
+const rootReducer = combineReducers(
+  {cartReducer}
+)
+
+export default rootReducer ;
