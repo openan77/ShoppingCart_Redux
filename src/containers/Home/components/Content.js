@@ -6,25 +6,27 @@ import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
 
 
+
 const mapStateToProps = (state) => {
-  console.log('STATE:',state);
+  console.log('STATE:', state);
   return {
-    addedIds: state.addedIds,
-    quantityById: state.quantityById,
-    priceDic: state.priceDic
+    addedIds: state.cartReducer.addedIds,
+    quantityById: state.cartReducer.quantityById,
+    priceDic: state.cartReducer.priceDic
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(cartAction, dispatch)
-  }
-}
+  })
 
 
 //----------------------------------------------------------------------------
 
 class Content extends Component {
+  constructor(props) {
+    super(props)
+  }
 
   initstate = {
    modal: false,
@@ -53,7 +55,7 @@ class Content extends Component {
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
               <p className="lead">
-                <Button onClick={this.toggle} color="primary">購物車()</Button>
+                <Button onClick={this.toggle} color="primary">購物車({this.props.addedIds.length})</Button>
               </p>
             </Jumbotron>
           </Col>
@@ -70,7 +72,7 @@ class Content extends Component {
                     <CardText>{product.desc}</CardText>
                     <Button onClick={() => {
                         this.props.actions.addProduct(product);
-                        console.log('PROPS:',this.props);
+                        console.log('PROPS:', this.props);
                       }
                       }>購買</Button>
                   </CardBody>
