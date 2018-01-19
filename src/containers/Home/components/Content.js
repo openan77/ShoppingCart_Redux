@@ -8,25 +8,23 @@ import * as cartAction from '../../../actions/index';
 
 
 const mapStateToProps = (state) => {
-  console.log('STATE:', state);
   return {
     addedIds: state.cartReducer.addedIds,
     quantityById: state.cartReducer.quantityById,
-    priceDic: state.cartReducer.priceDic
+    priceDic: state.cartReducer.priceDic,
+    modal: state.toogleReducer.modal
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(cartAction, dispatch)
+    addProduct: bindActionCreators(cartAction.addProduct, dispatch),
+    toggle: bindActionCreators(cartAction.toggle, dispatch)
   })
 
 
 //----------------------------------------------------------------------------
 
 class Content extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   initstate = {
    modal: false,
@@ -55,7 +53,10 @@ class Content extends Component {
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
               <p className="lead">
-                <Button onClick={this.toggle} color="primary">購物車({this.props.addedIds.length})</Button>
+                <Button onClick={()=>{
+                  this.props.toggle(this.props.modal);
+                }
+                } color="primary">購物車({this.props.addedIds.length})</Button>
               </p>
             </Jumbotron>
           </Col>
@@ -71,7 +72,7 @@ class Content extends Component {
                     <CardSubtitle>價格:{product.price}</CardSubtitle>
                     <CardText>{product.desc}</CardText>
                     <Button onClick={() => {
-                        this.props.actions.addProduct(product);
+                        this.props.addProduct(product);
                         console.log('PROPS:', this.props);
                       }
                       }>購買</Button>
@@ -83,8 +84,12 @@ class Content extends Component {
           }
 
         </Row>
-        <Modal isOpen={this.initstate.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>購物車</ModalHeader>
+        <Modal isOpen={this.props.modal} toggle={()=>{
+                  this.props.toggle(this.props.modal);
+                }}>
+          <ModalHeader toggle={()=>{
+                  this.props.toggle(this.props.modal);
+                }}>購物車</ModalHeader>
           <ModalBody>
             <Table>
               <thead>
@@ -112,7 +117,9 @@ class Content extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" disabled={this.initstate.cart.length === 0} onClick={() => this.checkout()}>結帳</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>取消</Button>
+            <Button color="secondary" onClick={()=>{
+                  this.props.toggle(this.props.modal);
+                }}>取消</Button>
           </ModalFooter>
         </Modal>
       </Container>

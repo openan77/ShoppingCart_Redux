@@ -5,3 +5,10 @@ export function addProduct(product) {
         product
     };
   }
+
+  export function toggle(modal) {
+    return { 
+        type: 'TOGGLE',
+        modal
+    };
+  }

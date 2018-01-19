@@ -41,8 +41,27 @@ const cartReducer = (state = initialState, action) => {
     }
 }
 
+const initialToggle = {
+  modal: false
+}
+
+const toogleReducer = (state = initialToggle, action) =>{
+  switch (action.type){
+    case 'TOGGLE':
+      return{
+        ...state,
+        modal: !action.modal
+      }
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers(
-  {cartReducer}
+  {
+    cartReducer,
+    toogleReducer
+  }
 )
 
 export default rootReducer ;
