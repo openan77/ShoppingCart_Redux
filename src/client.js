@@ -4,12 +4,13 @@ import { AppContainer } from 'react-hot-loader';
 import Main from 'containers/';
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore';
+import Content from './containers/Home/components/Content';
+
+const initialState = window.__INITIAL_STATE__;
 
 ReactDOM.render(
-  <Provider store={configureStore}>
-  <AppContainer>
-    <Main />
-  </AppContainer>
+  <Provider store={configureStore(initialState)}>
+    <Content />
   </Provider>,
   document.getElementById('app')
 );

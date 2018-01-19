@@ -25,9 +25,6 @@ const mapDispatchToProps = (dispatch) => {
 //----------------------------------------------------------------------------
 
 class Content extends Component {
-  constructor(props) {
-    super(props);
-}
 
   initstate = {
    modal: false,
