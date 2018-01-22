@@ -4,6 +4,7 @@ import AlbumJSON from './Album.json';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
+import index from '../../../reducers/index';
 
 
 
@@ -22,9 +23,25 @@ const mapDispatchToProps = (dispatch) => ({
   })
 
 
+
+
 //----------------------------------------------------------------------------
 
 class Content extends Component {
+
+  total = (products) => {
+    let total = 0;
+    console.log('Total',products);
+    for (let product in products){
+      num = this.props.cartProducts[product].count;
+      price = this.props.cartProducts[product].price;
+      money = price*num;
+      total += money;
+    }
+    console.log(total);
+    return total
+
+  }
 
   initstate = {
    modal: false,
@@ -103,16 +120,14 @@ class Content extends Component {
                   <th>價格</th>
                 </tr>
               </thead>
-              var keys = Object.keys(this.props.addProduct);
-              console.log(keys);
-
               <tbody>
                 {
-                  this.initstate.cart.map(item => (
+                  this.props.addedIds.map(index => (
                     <tr>
-                      <th scope="row">{item.id}</th>
-                      <td>{item.title}</td>
-                      <td>{item.price}</td>
+                      <th scope="row">{index}</th>
+                      <td>{this.props.cartProducts[index].title}</td>
+                      <td>{this.props.cartProducts[index].count}</td>
+                      <td>{this.props.cartProducts[index].price}</td>
                     </tr>
                   )
                 )
@@ -120,10 +135,12 @@ class Content extends Component {
 
               </tbody>
             </Table>
-            <p>總價:{TotalPrice}</p>
+            <p>總價:{this.total(this.props.cartProducts)}</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" disabled={this.initstate.cart.length === 0} onClick={() => this.checkout()}>結帳</Button>{' '}
+            <Button color="primary" disabled={this.props.addedIds.length === 0} onClick={() => {
+              this.checkout();
+             } }>結帳</Button>{' '}
             <Button color="secondary" onClick={()=>{
                   this.props.toggle(this.props.modal);
                 }}>取消</Button>
