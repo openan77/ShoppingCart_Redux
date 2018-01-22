@@ -8,10 +8,10 @@ import * as cartAction from '../../../actions/index';
 
 
 const mapStateToProps = (state) => {
+  //console.log(state)
   return {
     addedIds: state.cartReducer.addedIds,
-    quantityById: state.cartReducer.quantityById,
-    priceDic: state.cartReducer.priceDic,
+    cartProducts: state.cartReducer.all,
     modal: state.toogleReducer.modal
   }
 }
@@ -43,6 +43,7 @@ class Content extends Component {
   }
 
   render() {
+    console.log(this.props);
     const TotalPrice = 100;
     return (
       <Container>
@@ -73,9 +74,11 @@ class Content extends Component {
                     <CardText>{product.desc}</CardText>
                     <Button onClick={() => {
                         this.props.addProduct(product);
-                        console.log('PROPS:', this.props);
                       }
                       }>購買</Button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <Button>取消</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -96,9 +99,13 @@ class Content extends Component {
                 <tr>
                   <th>#</th>
                   <th>品項</th>
+                  <th>數量</th>
                   <th>價格</th>
                 </tr>
               </thead>
+              var keys = Object.keys(this.props.addProduct);
+              console.log(keys);
+
               <tbody>
                 {
                   this.initstate.cart.map(item => (

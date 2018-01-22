@@ -6,6 +6,13 @@ export function addProduct(product) {
     };
   }
 
+  export function removeProduct(product) {
+    return { 
+        type: 'CANCLE',
+        product
+    };
+  }
+
   export function toggle(modal) {
     return { 
         type: 'TOGGLE',
