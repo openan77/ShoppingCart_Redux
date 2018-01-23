@@ -9,7 +9,6 @@ import index from '../../../reducers/index';
 
 
 const mapStateToProps = (state) => {
-  //console.log(state)
   return {
     addedIds: state.cartReducer.addedIds,
     cartProducts: state.cartReducer.all,
@@ -19,6 +18,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     addProduct: bindActionCreators(cartAction.addProduct, dispatch),
+    removeProduct: bindActionCreators(cartAction.removeProduct, dispatch),
     toggle: bindActionCreators(cartAction.toggle, dispatch)
   })
 
@@ -31,16 +31,18 @@ class Content extends Component {
 
   total = (products) => {
     let total = 0;
-    console.log('Total',products);
-    for (let product in products){
-      num = this.props.cartProducts[product].count;
-      price = this.props.cartProducts[product].price;
-      money = price*num;
-      total += money;
+    if (this.props.addedIds.length === 0 ){
+      return 0
     }
-    console.log(total);
-    return total
-
+    else{
+      for (let product in products){
+        num = this.props.cartProducts[product].count;
+        price = this.props.cartProducts[product].price;
+        money = price*num;
+        total += money;
+      }
+      return total
+    }
   }
 
   initstate = {
@@ -60,8 +62,8 @@ class Content extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const TotalPrice = 100;
+    console.log('PROPS',this.props);
+
     return (
       <Container>
         <Row>
@@ -91,11 +93,12 @@ class Content extends Component {
                     <CardText>{product.desc}</CardText>
                     <Button onClick={() => {
                         this.props.addProduct(product);
-                      }
-                      }>購買</Button>
+                      }}>購買</Button>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <Button>取消</Button>
+                    <Button onClick={() => {
+                        this.props.removeProduct(product);
+                      }}>取消</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -139,7 +142,7 @@ class Content extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" disabled={this.props.addedIds.length === 0} onClick={() => {
-              this.checkout();
+              this.checkout(this.total(this.props.cartProducts));
              } }>結帳</Button>{' '}
             <Button color="secondary" onClick={()=>{
                   this.props.toggle(this.props.modal);
@@ -152,4 +155,4 @@ class Content extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
-console.log('Finish Connect!');
+

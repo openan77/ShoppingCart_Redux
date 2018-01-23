@@ -8,7 +8,7 @@ export function addProduct(product) {
 
   export function removeProduct(product) {
     return { 
-        type: 'CANCLE',
+        type: 'REMOVE',
         product
     };
   }

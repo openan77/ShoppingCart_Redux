@@ -2,8 +2,6 @@ import {combineReducers} from 'redux';
 
 const initialState = {
     addedIds: [],
-    quantityById: {},
-    priceDic: {},
     all: {}
   }
 
@@ -13,13 +11,21 @@ const addProduct = (state = initialState.addedIds, product) => {
     }
     return state;
 }
-  
 
+const removeProduct = (state = initialState.addedIds, id) => {
+  if (state.indexOf(id) === -1){
+    console.log('no change');
+    return state;
+  }
+  else {
+    return state.filter(element => element !== id)
+  }
+}
 
 const addAll = (state = initialState.all, product) => {
-  if (product.id in state){
+  if (product.id in state){ 
       let newNum = state[product.id].count+1;
-      return{
+      return {
         ...state,
         [product.id] : {
           title: product.title,
@@ -39,6 +45,23 @@ const addAll = (state = initialState.all, product) => {
     }
   }
 }
+
+const removeAll = (state = initialState.all, product) => {
+  if (product.id in state){
+      return {
+        ...state,
+        [product.id] : {
+          title: product.title,
+          count: 0,
+          price: product.price,
+        }
+      }
+  }
+  else {
+    return state
+  }
+}
+
   
 const cartReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -48,10 +71,11 @@ const cartReducer = (state = initialState, action) => {
           addedIds: addProduct(state.addedIds, action.product.id),
           all: addAll(state.all, action.product)
         }
-        case 'CANCLE':
-          return{
+        case 'REMOVE':
+          return {
             ...state,
-            BIBI:'S'
+            addedIds: removeProduct(state.addedIds, action.product.id),
+            all: removeAll(state.all, action.product)
           }
       default:
         return state;
