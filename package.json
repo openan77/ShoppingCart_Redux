@@ -1,7 +1,8 @@
 {
-  "name": "simple_react_start_kit_2017",
+  "name": "Shopping Cart ReactJS&Redux Practice",
   "description": "react webpack2 react-router example",
   "version": "0.0.1",
+  "homepage": "https://openan77.github.io/ShoppingCart_Redux/", 
   "author": "Your name here",
   "dependencies": {
     "autoprefixer": "^6.7.6",
@@ -63,7 +64,7 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "start": "webpack-dev-server --open --env dev",
-    "deploy": "npm run dist && gh-pages -d dist",
+    "deploy": "npm run build&&gh-pages -d build",
     "build:docker": "npm run dist && docker build -t reactdocker ."
   }
 }
