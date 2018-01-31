@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table} from 'reactstrap';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import AlbumJSON from './Album.json';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,6 +11,7 @@ import index from '../../../reducers/index';
 
 
 const mapStateToProps = (state) => {
+  console.log('STATE',state);
   return {
     addedIds: state.cartReducer.addedIds,
     cartProducts: state.cartReducer.all,
@@ -28,6 +31,18 @@ const mapDispatchToProps = (dispatch) => ({
 //----------------------------------------------------------------------------
 
 class Content extends Component {
+  state = {
+    user: 'temp',
+    password: 'temp'
+  }
+
+  userChange = (e) => {
+    this.setState({user: e.target.value});
+  }
+
+  passwordChange = (e) => {
+    this.setState({password: e.target.value});
+  }
 
   total = (products) => {
     let total = 0;
@@ -45,25 +60,13 @@ class Content extends Component {
     }
   }
 
-  initstate = {
-   modal: false,
-   cart: [],
-  }
-
-  toggle = () => {
-    this.setState({
-      modal: !this.initstate.modal
-    });
-  }
-
 
   checkout = (totalPrice) => {
     alert(`已扣除${totalPrice}元`);
   }
 
   render() {
-    console.log('PROPS',this.props);
-
+    //console.log('PROPS',this.props);
     return (
       <Container>
         <Row>
@@ -72,12 +75,28 @@ class Content extends Component {
               <h1 className="display-3">植物工坊</h1>
               <p className="lead">用大自然元素及運行法則栽培農業的植物工坊 工坊座落於大屯山下擁有豐富大自然生態資源，供給工坊最天然的元素。</p>
               <p>太陽，空氣，風，水。。提供工坊種植的優質條件，工坊堅持以老天供給最自然條件生產農作物</p>
-              <p className="lead">
+              <Form inline>
+                <FormGroup>
+                  <Label for="exampleEmail" hidden>Email</Label>
+                  <Input type="username" placeholder="Username" onChange={this.userChange} />
+                </FormGroup>
+                &nbsp;
+                <FormGroup>
+                  <Label for="examplePassword" hidden>Password</Label>
+                  <Input type="password" placeholder="Password" onChange={this.passwordChange}/>
+                </FormGroup>
+                &nbsp;
+                <Button color="primary" onClick={()=>{console.log(this.state)}}>登入</Button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Button onClick={()=>{
-                  this.props.toggle(this.props.modal);
-                }
-                } color="primary">購物車({this.props.addedIds.length})</Button>
-              </p>
+                    this.props.toggle(this.props.modal);
+                  }
+                  } color="primary">購物車({this.props.addedIds.length})</Button>
+              </Form>
             </Jumbotron>
           </Col>
         </Row>
