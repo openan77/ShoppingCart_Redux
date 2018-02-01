@@ -6,34 +6,33 @@ import AlbumJSON from './Album.json';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
-import index from '../../../reducers/index';
-
 
 
 const mapStateToProps = (state) => {
-  console.log('STATE',state);
   return {
     addedIds: state.cartReducer.addedIds,
     cartProducts: state.cartReducer.all,
-    modal: state.toogleReducer.modal
+    modal: state.toogleReducer.modal,
+    loginData: state.loginReducer
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
     addProduct: bindActionCreators(cartAction.addProduct, dispatch),
     removeProduct: bindActionCreators(cartAction.removeProduct, dispatch),
-    toggle: bindActionCreators(cartAction.toggle, dispatch)
+    toggle: bindActionCreators(cartAction.toggle, dispatch),
+    login: bindActionCreators(cartAction.loginRequest, dispatch),
   })
-
-
-
 
 //----------------------------------------------------------------------------
 
 class Content extends Component {
   state = {
     user: 'temp',
-    password: 'temp'
+    password: 'temp',
+    isFetching: false,
+    isOpen: true,
+    errors: {},
   }
 
   userChange = (e) => {
@@ -50,7 +49,7 @@ class Content extends Component {
       return 0
     }
     else{
-      for (let product in products){
+      for(let product in products){
         num = this.props.cartProducts[product].count;
         price = this.props.cartProducts[product].price;
         money = price*num;
@@ -66,7 +65,7 @@ class Content extends Component {
   }
 
   render() {
-    //console.log('PROPS',this.props);
+    console.log('PROPS',this.props);
     return (
       <Container>
         <Row>
@@ -86,7 +85,11 @@ class Content extends Component {
                   <Input type="password" placeholder="Password" onChange={this.passwordChange}/>
                 </FormGroup>
                 &nbsp;
-                <Button color="primary" onClick={()=>{console.log(this.state)}}>登入</Button>
+                <Button color="primary" onClick={() => {
+                  console.log(this.state);
+                  this.props.login(this.state);
+                }
+              }>登入</Button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

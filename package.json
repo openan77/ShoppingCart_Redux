@@ -43,6 +43,7 @@
     "react-router-dom": "4.1.2",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
     "ress": "^1.2.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",

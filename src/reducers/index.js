@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import loginReducer from './login';
 
 const initialState = {
     addedIds: [],
@@ -101,8 +102,9 @@ const toogleReducer = (state = initialToogleState, action) =>{
 const rootReducer = combineReducers(
   {
     cartReducer,
-    toogleReducer
+    toogleReducer,
+    loginReducer
   }
 )
 
-export default rootReducer ;
+export default rootReducer;

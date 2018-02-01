@@ -1,6 +1,7 @@
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGIN_INPUT_CHANGE = "LOGIN_INPUT_CHANGE";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
 export const PUSH = "PUSH";
 export const REMOVE = "REMOVE";
@@ -31,7 +32,12 @@ export const loginFailed = (errors) => ({
     errors
 });
 
-export const loginInputChange = (change) => ({
+export const loginSuccess = (userdata) => ({
+    type: LOGIN_SUCCESS,
+    userdata
+});
+
+export const loginInputChange = (userdata) => ({
     type: LOGIN_INPUT_CHANGE,
-    change
+    userdata
 });
