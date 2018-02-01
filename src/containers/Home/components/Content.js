@@ -77,15 +77,15 @@ class Content extends Component {
               <Form inline>
                 <FormGroup>
                   <Label for="exampleEmail" hidden>Email</Label>
-                  <Input type="username" placeholder="Username" onChange={this.userChange} />
+                  <Input type="username" placeholder="Username" onChange={this.userChange}  disabled={this.props.loginData.isOpen} />
                 </FormGroup>
                 &nbsp;
                 <FormGroup>
                   <Label for="examplePassword" hidden>Password</Label>
-                  <Input type="password" placeholder="Password" onChange={this.passwordChange}/>
+                  <Input type="password" placeholder="Password" onChange={this.passwordChange} disabled={this.props.loginData.isOpen}/>
                 </FormGroup>
                 &nbsp;
-                <Button color="primary" onClick={() => {
+                <Button disabled={this.props.loginData.isOpen} color="primary" onClick={() => {
                   console.log(this.state);
                   this.props.login(this.state);
                 }

@@ -5,7 +5,7 @@ const initialState = {
     user: "",
     password: "",
     errors: {},
-    isOpen: true
+    isOpen: false
 };
 
 let defaultuserData = {
@@ -48,7 +48,7 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 user: action.action.loginData.user,
-                isOpen: false
+                isOpen: true
             }
         }
         else {
@@ -56,7 +56,7 @@ const loginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
-                isOpen: true,
+                isOpen: false,
                 errors: {message: 'Wrong User'}
             }            
         }
