@@ -6,6 +6,7 @@ import AlbumJSON from './Album.json';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 
 const mapStateToProps = (state) => {
@@ -33,6 +34,7 @@ class Content extends Component {
     isFetching: false,
     isOpen: true,
     errors: {},
+    loading: 'hide',
   }
 
   userChange = (e) => {
@@ -88,13 +90,19 @@ class Content extends Component {
                 <Button disabled={this.props.loginData.isOpen} color="primary" onClick={() => {
                   console.log(this.state);
                   this.props.login(this.state);
-                }
-              }>登入</Button>
+                }}>登入</Button>
+                <RefreshIndicator
+                  size={40}
+                  left={10}
+                  top={0}
+                  status={this.props.loginData.loading}
+                  style={style.refresh}
+                />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Button onClick={()=>{
                     this.props.toggle(this.props.modal);
                   }
@@ -175,6 +183,16 @@ class Content extends Component {
     );
   }
 }
+
+const style = {
+  container: {
+    position: 'relative',
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
 

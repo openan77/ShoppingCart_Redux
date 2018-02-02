@@ -5,12 +5,15 @@ import Main from 'containers/';
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore';
 import Content from './containers/Home/components/Content';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const initialState = window.__INITIAL_STATE__;
 
 ReactDOM.render(
   <Provider store={configureStore(initialState)}>
-    <Content />
+    <MuiThemeProvider>
+      <Content />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')
 );

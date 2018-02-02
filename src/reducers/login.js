@@ -5,7 +5,8 @@ const initialState = {
     user: "",
     password: "",
     errors: {},
-    isOpen: false
+    isOpen: false,
+    loading: 'hide',
 };
 
 let defaultuserData = {
@@ -21,7 +22,8 @@ const loginReducer = (state = initialState, action) => {
             return {
                  ...state, 
                  isFetching: true, 
-                 errors: {} 
+                 errors: {},
+                 loading: 'loading'
                 };
 
         case LOGIN_SUCCESS:
@@ -38,17 +40,18 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 errors: action.errors,
+                loading: 'hide'
             };
 
         case LOGIN_INPUT_CHANGE:
         console.log('reducer:LOGIN_INPUT_CHANGE');
         if (action.action.loginData.user === defaultuserData.user && action.action.loginData.password ===  defaultuserData.password){
-            console.log('SUCCESSSSS');
             return {
                 ...state,
                 isFetching: false,
                 user: action.action.loginData.user,
-                isOpen: true
+                isOpen: true,
+                loading: 'hide'
             }
         }
         else {
@@ -57,7 +60,8 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 isOpen: false,
-                errors: {message: 'Wrong User'}
+                errors: {message: 'Wrong User'},
+                loading: 'hide'
             }            
         }
         
