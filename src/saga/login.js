@@ -13,7 +13,7 @@ function* LoginSaga(action) {
         //yield put(Actions.LOGIN_FAILED);
     }
     catch (e) {
-        console.log('LOGIN_FAILED');
+        console.log('LOGIN_FAILED_SYSTEM_ERROR');
         yield put(Actions.LOGIN_FAILED);
     }
 }

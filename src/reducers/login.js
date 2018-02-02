@@ -7,6 +7,7 @@ const initialState = {
     errors: {},
     isOpen: false,
     loading: 'hide',
+    errmsg: false, 
 };
 
 let defaultuserData = {
@@ -23,7 +24,8 @@ const loginReducer = (state = initialState, action) => {
                  ...state, 
                  isFetching: true, 
                  errors: {},
-                 loading: 'loading'
+                 loading: 'loading',
+                 errmsg: false, 
                 };
 
         case LOGIN_SUCCESS:
@@ -31,7 +33,8 @@ const loginReducer = (state = initialState, action) => {
             return {
                  ...state, 
                  isFetching: false, 
-                 errors: {} 
+                 errors: {},
+                 errmsg: false, 
                 };
 
         case LOGIN_FAILED:
@@ -40,7 +43,8 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: false,
                 errors: action.errors,
-                loading: 'hide'
+                loading: 'hide',
+                errmsg: true,
             };
 
         case LOGIN_INPUT_CHANGE:
@@ -55,13 +59,14 @@ const loginReducer = (state = initialState, action) => {
             }
         }
         else {
-            console.log('reducer:LOGIN_fail');
+            console.log('reducer:LOGIN_FAIL');
             return {
                 ...state,
                 isFetching: false,
                 isOpen: false,
                 errors: {message: 'Wrong User'},
-                loading: 'hide'
+                loading: 'hide',
+                errmsg: true,
             }            
         }
         

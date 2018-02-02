@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table} from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardDeck, Button, Container, Row, Col, Jumbotron, Modal, ModalHeader, ModalBody, ModalFooter, Table} from 'reactstrap';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
 import AlbumJSON from './Album.json';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartAction from '../../../actions/index';
+// Material-UI
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import Snackbar from 'material-ui/Snackbar';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 const mapStateToProps = (state) => {
@@ -34,7 +37,6 @@ class Content extends Component {
     isFetching: false,
     isOpen: true,
     errors: {},
-    loading: 'hide',
   }
 
   userChange = (e) => {
@@ -115,6 +117,7 @@ class Content extends Component {
           {
             AlbumJSON.map(product => (
               <Col xs="12" md="4">
+              <CardDeck>
                 <Card>
                   <CardImg top width="100%" src={product.img} alt="Card image cap" />
                   <CardBody>
@@ -131,6 +134,7 @@ class Content extends Component {
                       }}>取消</Button>
                   </CardBody>
                 </Card>
+              </CardDeck>
               </Col>
             )
           )
@@ -179,6 +183,13 @@ class Content extends Component {
                 }}>取消</Button>
           </ModalFooter>
         </Modal>
+        <Snackbar
+          open={this.props.loginData.errmsg}
+          message="Error!"
+          autoHideDuration={2000}
+          onRequestClose={this.handleRequestClose}
+          bodyStyle={style.snackbar}
+        />
       </Container>
     );
   }
@@ -192,6 +203,9 @@ const style = {
     display: 'inline-block',
     position: 'relative',
   },
+  snackbar:{
+    backgroundColor: '#00BCD4'
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);
